@@ -3,18 +3,21 @@ GHC_LIB_RTS_DIR=$(GHC_LIB_DIR)/rts
 GHC_RTS_LIB= HSrts
 OUT_DIR=./build
 GHC_STATIC_FLAGS=-static -optl-static -optl-pthread
+O_CPP_FILES=function_stubs.o HaskellPlugin.o
 
-main: main.o hs/test.o
+
+main: test.o unpack $(O_CPP_FILES) 
 	ghc  -g  $(GHC_STATIC_FLAGS) -fPIC -no-hs-main  $^ -o main -lstdc++
-main.o: test.o main.cpp unpack
 
-	g++ -g -c main.cpp -I hs/ -I ./include -I ./include/mathlibra -I `ghc --print-libdir`/include 
+%.o : %.cpp 
+	g++  -I./hs/ -I./include -I./include/mathlibra -I`ghc --print-libdir`/include $< 
+
 %.o : hs/%.hs
 	ghc -g  -c  $(GHC_STATIC_FLAGS) -fPIC -optc-static   -fforce-recomp  $<  
 
 #extract needed headers 
 unpack: plugin_api.zip
-	unzip -d include/mathlibra/ -f plugin_api.zip	
+	unzip -d include/mathlibra/  plugin_api.zip	
 
 clean:
 	rm -rf *.o 

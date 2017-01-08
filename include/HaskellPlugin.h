@@ -3,7 +3,7 @@
 
 #include "PluginFunctions.h"
 
-class SkeletonPlugin : public plugin::function_plugin_base {
+class HaskellPlugin : public plugin::function_plugin_base {
     
     function func;
 
@@ -22,6 +22,6 @@ public:
 
     virtual const char *plugin_name();
 
-    SkeletonPlugin();
+    HaskellPlugin();
 };
 
