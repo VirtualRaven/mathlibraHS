@@ -1,11 +1,8 @@
-
 #include "functions_external_interface.h"
-
-#include "PluginFunctions.h"
 
 class HaskellPlugin : public plugin::function_plugin_base {
     
-    function func;
+    plugin::function func;
 
 public:
     virtual unsigned int function_size();
